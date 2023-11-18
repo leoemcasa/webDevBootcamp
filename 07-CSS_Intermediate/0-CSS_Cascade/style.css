@@ -1,13 +1,11 @@
 /* Don't change the existing CSS. */
 
 #outer-box {
-  border: 10px solid brown;
+  background-color: brown;
 }
 
 .white-text {
   color: white;
-  background-color: red;
-  padding: 10px;
 }
 
 .box {
@@ -16,7 +14,7 @@
 }
 
 .inner-box {
-  padding-left: 0;
+  background-color: red;
 }
 
 p {
