@@ -1,8 +1,22 @@
 /* Don't change the existing CSS. */
 
+#outer-box {
+  border: 10px solid brown;
+}
+
+.white-text {
+  color: white;
+  background-color: red;
+  padding: 10px;
+}
+
 .box {
   background-color: blue;
   padding: 10px;
+}
+
+.inner-box {
+  padding-left: 0;
 }
 
 p {
