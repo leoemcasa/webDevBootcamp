@@ -9,6 +9,16 @@
 
 <body>
   <!-- Write your code here -->
+  <% if (locals.reqb) { %>
+    <p>locals Ok</p>
+    <% console.log(reqb.fName); %>
+    <% console.log("VIEW OK"); %>
+  <% } else { %>
+    <p>locals NOToK</p>
+    <% console.log("view Nok"); %>
+  <% }; %>
+  
+  <!-- Write your code here -->
   <form action="/submit" method="POST">
     <input type="text" name="fName" placeholder="First name">
     <input type="text" name="lName" placeholder="Last name">
