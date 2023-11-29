@@ -10,7 +10,9 @@ app.get("/", (req, res) => { res.render('index.ejs') });
 
 app.post("/submit", (req, res) => { 
   console.log(req.body)
-  res.render('index.ejs', { reqb : req.body }) 
+  res.render('index.ejs', {
+    fName : req.body.fName,
+    lName : req.body.lName}) 
 });
 
 app.listen(port, () => {

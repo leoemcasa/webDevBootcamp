@@ -9,13 +9,11 @@
 
 <body>
   <!-- Write your code here -->
-  <% if (locals.reqb) { %>
-    <p>locals Ok</p>
-    <% console.log(reqb.fName); %>
-    <% console.log("VIEW OK"); %>
+  <% if (locals.fName && locals.lName) { %>
+    <% let name = fName+lName; %>
+    <h1>There are <%= name.length %> letters in your name.</h1>
   <% } else { %>
-    <p>locals NOToK</p>
-    <% console.log("view Nok"); %>
+    <h1>👇 Enter your name below 👇</h1>
   <% }; %>
   
   <!-- Write your code here -->
