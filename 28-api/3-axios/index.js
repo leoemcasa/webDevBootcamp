@@ -11,9 +11,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Step 1: Make sure that when a user visits the home page,
 //   it shows a random activity.You will need to check the format of the
 //   JSON data from response.data and edit the index.ejs file accordingly.
+let apiURL = "https://bored-api.appbrewery.com";
 app.get("/", async (req, res) => {
   try {
-    const response = await axios.get("https://bored-api.appbrewery.com/random");
+    const response = await axios.get(`${apiURL}/random`);
     const result = response.data;
     res.render("index.ejs", { data: result });
   } catch (error) {
@@ -25,8 +26,6 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", async (req, res) => {
-  console.log(req.body);
-
   // Step 2: Play around with the drop downs and see what gets logged.
   // Use axios to make an API request to the /filter endpoint. Making
   // sure you're passing both the type and participants queries.
@@ -35,7 +34,24 @@ app.post("/", async (req, res) => {
   // Step 3: If you get a 404 error (resource not found) from the API request.
   // Pass an error to the index.ejs to tell the user:
   // "No activities that match your criteria."
-});
+  try {
+    const responseFiltered = await axios.get(`${apiURL}/filter?type=${req.body.type}&participants=${req.body.participants}`)
+    const responseRandom = Math.floor(Math.random() * responseFiltered.data.length);
+    const resultFiltered = responseFiltered.data[responseRandom];
+    res.render("index.ejs", { data: resultFiltered });
+  // console.log(`AQUI ${resultFiltered.type}`);
+  } catch (error) {
+    console.error("Failed to make request:", error.message);
+    if (error.message == "Request failed with status code 404") {
+      res.render("index.ejs", {
+        error: "No activities that match your criteria."
+      });
+    } else {
+      res.render("index.ejs", {
+      error: error.message
+    });
+  }
+}});
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
