@@ -12,15 +12,18 @@
 </head>
 
 <body>
+  
   <h1>What's your secret?</h1>
-  <div class="card">
-    <p>
-      <%= secret %>
+  <% if (locals.secret && locals. user) { %>
+    <div class="card">
+      <p>
+        <%= secret %>
+      </p>
+    </div>
+    <p class="user">
+      <%= user %>
     </p>
-  </div>
-  <p class="user">
-    <%= user %>
-  </p>
+  <% } else { "go to random" } %>
 </body>
 
 </html>
