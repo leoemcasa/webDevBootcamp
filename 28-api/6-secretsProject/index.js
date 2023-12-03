@@ -25,16 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", async (req, res) => {
     try {
       const response = await axios.get(`${url}/random`);
-      const result = response.data;
       res.render("index.ejs", { 
-        secret: result.secret,
-        user: result.username
+        secret: response.data.secret,
+        user: response.data.username
      });
     } catch (error) {
-      console.error("Failed to make request:", error.message);
-      res.render("index.ejs", {
-        error: error.message,
-      });
+      console.log("Failed to make request:", error.response.data);
+      res.status(500);
     }
   });
 
