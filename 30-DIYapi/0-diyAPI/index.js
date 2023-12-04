@@ -8,12 +8,36 @@ const masterKey = "4VGP2DN-6EWM4SJ-N6FGRHV-Z3PR3TT";
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //1. GET a random joke
+app.get("/random", (req, res) => {
+  const rand = Math.floor(Math.random() * jokes.length);
+  res.json(jokes[rand]);
+})
 
 //2. GET a specific joke
+app.get("/jokes/:id", (req, res) => {
+  const reqId = parseInt(req.params.id);
+  const joke = jokes.find((e) => e.id === reqId);
+  res.json(joke);
+})
 
 //3. GET a jokes by filtering on the joke type
+app.get("/filter", (req, res) => {
+  const filter = req.query.type;
+  const filterdJokes = jokes.filter((e) => e.jokeType === filter);
+  res.json(filterdJokes);
+})
 
 //4. POST a new joke
+app.post("/jokes", (req, res) => {
+  const newJoke = {
+    id: jokes.length + 1,
+    jokeText: req.body.text,
+    jokeType: req.body.type
+  }
+  jokes.push(newJoke);
+  console.log(jokes.slice(-1));
+  res.json(newJoke);
+})
 
 //5. PUT a joke
 
