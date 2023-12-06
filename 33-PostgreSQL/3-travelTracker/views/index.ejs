@@ -373,8 +373,11 @@
   </section>
   <h2 class="total-count">Total Countries: <%=total%>
   </h2>
+  <%# let c = countries.split(","); %>
+  <%# console.log(c, " query"); %>
   <script>
     const country_codes = "<%= countries %>".split(",") 
+    console.log(country_codes);
     console.log(typeof ("<%= countries %>"))
     country_codes.forEach(code => {
       document.getElementById(code).style.fill = 'teal'
