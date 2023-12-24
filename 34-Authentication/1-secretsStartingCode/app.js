@@ -33,7 +33,8 @@ mongoose.connect(uri);
 const userSchema = new mongoose.Schema ({
     email: String,
     password: String,
-    googleId: String
+    googleId: String,
+    secret: String
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -48,9 +49,9 @@ passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
-passport.deserializeUser(function(id, done) {
-    User.findById(id).then((foundUser) => {
-        done(err, User);
+passport.deserializeUser((id, done) => {
+    User.findById(id).then((user) => {
+        done(null, user);
     });
     // User.findById(id, function(err, user) {
     //     done(err, user);
@@ -63,7 +64,7 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/secrets"
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
+    //console.log(profile);
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
       return cb(err, user);
     });
@@ -93,11 +94,40 @@ app.get("/register", function(req, res){
 });
 
 app.get("/secrets", function(req, res){
+    console.log("getSecrets??");
+    User.find({"secret": {$ne: null}}).then((foudUsers) => {
+            if (foudUsers) {
+                console.log("renderOK?");
+                res.render("secrets.ejs", {usersWithSecrets: foudUsers});
+            }
+    });
+    // if (req.isAuthenticated()){
+    //     res.render("secrets.ejs");
+    // } else {
+    //     res.redirect("/login");
+    // };
+});
+
+app.get("/submit", (req, res) => {
     if (req.isAuthenticated()){
-        res.render("secrets.ejs");
+        res.render("submit.ejs");
     } else {
         res.redirect("/login");
     };
+});
+
+app.post("/submit", (req, res) => {
+    const submittedSecret = req.body.secret;
+    console.log(`found ${req.body.secret}`);
+    console.log(`found ${req.user.id}`);
+    User.findById(req.user.id).then((foundUser) => {
+        
+        if (foundUser) {
+            foundUser.secret = submittedSecret;
+            foundUser.save();
+            res.redirect("/secrets");
+        };
+    });
 });
 
 app.get("/logout", function(req, res) {
