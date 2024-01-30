@@ -1,0 +1,34 @@
+<datasource jta="true" jndi-name="java:jboss/datasources/seiDS" pool-name="SEIDS" enabled="true" use-ccm="true" statistics-enabled="true">
+    <connection-url>jdbc:mysql://10.0.23.103:3307/dbsei</connection-url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <driver>mysql</driver>
+    <pool>
+        <min-pool-size>1</min-pool-size>
+        <max-pool-size>10</max-pool-size>
+    </pool>
+    <security>
+        <user-name>pgs_bat_adm</user-name>
+    </security>
+    <validation>
+        <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
+        <validate-on-match>true</validate-on-match>
+        <background-validation>true</background-validation>
+    </validation>
+    <statement>
+        <share-prepared-statements>false</share-prepared-statements>
+    </statement>
+</datasource>
+<datasource jta="true" jndi-name="java:jboss/datasources/SistemasComumDS" pool-name="SistemasComumDS" enabled="true" use-ccm="true">
+    <connection-url>jdbc:postgresql://10.0.11.106:5432/sistemas_comum_prod</connection-url>
+    <driver-class>org.postgresql.Driver</driver-class>
+    <driver>postgresql</driver>
+    <new-connection-sql>SELECT id_formacao FROM rh.formacao LIMIT 1</new-connection-sql>
+    <security>
+        <user-name>bat_app</user-name>
+    </security>
+    <validation>
+        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+        <background-validation>true</background-validation>
+        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+    </validation>
+</datasource>
